@@ -56,7 +56,7 @@ Redmine::Plugin.register :redmine_wiki_extensions do
 
     menu :project_menu, menulist[i], { :controller => 'wiki_extensions', :action => 'forward_wiki_page', :menu_id => no },:after => before,
     :caption => Proc.new{|proj| WikiExtensionsMenu.title(proj.id, no)},
-    :if => Proc.new{|proj| WikiExtensionsMenu.enabled?(proj.id, no)}
+    :if => Proc.new{|proj| proj.enabled_modules.where(name: 'wiki').any? && WikiExtensionsMenu.enabled?(proj.id, no)}
   }
 
   RedCloth3::ALLOWED_TAGS << "div"
